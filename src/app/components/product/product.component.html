@@ -1,0 +1,6 @@
+<!-- <img width="200" [src]="product.image" [alt]="'Imágen de' + product.name.toLowerCase()"> -->
+<app-img [img]="product.image"></app-img>
+<h2>{{ product.price | currency: 'MXN' }}</h2>
+<p>{{ product.title | reverse }}</p>
+<p appHighlight>{{ product.description }}</p>
+<button (click)="onAddToCart()">Add cart</button>

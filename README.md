@@ -25,3 +25,24 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+## Crear componentes
+- ng g c components/img
+
+## Abrir proyecto 
+- ng serve -o
+
+## Separar la logica de negocio - Servicios
+### Inyección de dependencias
+- ng g s services/store
+
+## Ejemplo de API
+- http://fakestoreapi.com/docs
+
+## Crear PIPES
+- ng g p pipes/reverse
+
+## Linters - para verificar si estamos desarrollando buenas practicas
+- ng lint
+- copiar y pegar .. ng...
