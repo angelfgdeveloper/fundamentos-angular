@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, AfterViewIni
 })
 
 // Ciclos de vida - OnInit, OnChanges, AfterViewInit, OnDestroy
-export class ImgComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class ImgComponent /*implements OnInit, OnChanges, AfterViewInit, OnDestroy */ {
 
   img: string  = '';
 
@@ -34,34 +34,34 @@ export class ImgComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy
     // En el contructor se hacen cosas inmediatas y no asincronas
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-     // Before - during render
-     // Changes inputs - many times
-     console.log('ngOnChanges', 'imgValue =>', this.img);
-    //  console.log('changes', changes); --
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //    // Before - during render
+  //    // Changes inputs - many times
+  //   //  console.log('ngOnChanges', 'imgValue =>', this.img); --
+  //   //  console.log('changes', changes); --
+  // }
 
-  ngOnInit(): void {
-    // Before render
-    // async - fetch -- once time (Solo una vez)
-    console.log('ngOnInit', 'imgValue =>', this.img);
+  // ngOnInit(): void {
+  //   // Before render
+  //   // async - fetch -- once time (Solo una vez)
+  //   // console.log('ngOnInit', 'imgValue =>', this.img); --
 
-    // this.counterFn = window.setInterval(() => {
-    //   this.counter += 1;
-    //   console.log('Run counter');
-    // }, 1000);
-  }
+  //   // this.counterFn = window.setInterval(() => {
+  //   //   this.counter += 1;
+  //   //   console.log('Run counter');
+  //   // }, 1000);
+  // }
 
-  ngAfterViewInit(): void {
-    // After render
-    console.log('ngAfterViewInit');
-  }
+  // ngAfterViewInit(): void {
+  //   // After render
+  //   // console.log('ngAfterViewInit'); --
+  // }
 
-  ngOnDestroy(): void {
-    // delete
-    console.log('ngOnDestroy');
-    // window.clearInterval(this.counterFn);
-  }
+  // ngOnDestroy(): void {
+  //   // delete
+  //   // console.log('ngOnDestroy'); --
+  //   // window.clearInterval(this.counterFn);
+  // }
 
   imgError() {
     this.img = this.imageDefault;
