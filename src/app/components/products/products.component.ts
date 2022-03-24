@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { zip } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -12,11 +12,13 @@ import { ProductsService } from '../../services/products.service';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
 
   myShoppingCart: Product[] = [];
   total = 0;
-  products: Product[] = [];
+  @Input() products: Product[] = [];
+  @Output() loadMore = new EventEmitter();
+
   today = new Date();
   date = new Date(2022, 5, 22);
   showProductDetail = false;
@@ -42,15 +44,15 @@ export class ProductsComponent implements OnInit {
     this.myShoppingCart = this.storeService.getShoppingCart();
   }
 
-  ngOnInit(): void {
-    // // this.productsService.getAllProducts()
-    // this.productsService.getProductByPage(10, 0)
-    // .subscribe(data => {
-    //   // console.log(data);
-    //   this.products = data;
-    // });
-    this.loadMore();
-  }
+  // ngOnInit(): void {
+  //   // // this.productsService.getAllProducts()
+  //   // this.productsService.getProductByPage(10, 0)
+  //   // .subscribe(data => {
+  //   //   // console.log(data);
+  //   //   this.products = data;
+  //   // });
+  //   this.loadMore();
+  // }
 
   onAddToShoppingCart(product: Product) {
     // console.log(product);
@@ -162,13 +164,8 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  loadMore() {
-    this.productsService.getProductByPage(this.limit, this.offset)
-    .subscribe(data => {
-      // this.products = data;
-      this.products = this.products.concat(data);
-      this.offset += this.limit;
-    });
+  onLoadMore() {
+    this.loadMore.emit();
   }
 
 }

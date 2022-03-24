@@ -6,10 +6,11 @@
 <app-img *ngIf="showImg" (loaded)="onLoaded($event)" [img]="imgParent"></app-img>
 <hr> -->
 
-<app-nav></app-nav>
+<!-- Apartado #2 -->
+<!-- <app-nav></app-nav>
 <button (click)="createUser()">Create user</button>
-<!-- <button (click)="login()">Login</button>
-<button (click)="getProfile()">Profile</button> -->
+<button (click)="login()">Login</button>
+<button (click)="getProfile()">Profile</button>
 
 <p>
   <a href="./assets/files/text.txt" download>Download</a>
@@ -25,6 +26,8 @@
 </p>
 
 <hr>
-<app-products></app-products>
+<app-products></app-products> -->
 
 
+<app-nav></app-nav>
+<router-outlet></router-outlet>

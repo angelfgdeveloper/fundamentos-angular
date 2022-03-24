@@ -25,28 +25,28 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  getAllProducts(limit?: number, offset?: number): Observable<Product[]> {
-    // return this.http.get<Product[]>('https://fakestoreapi.com/products');
-    // return this.http.get<Product[]>('https://young-sands-07814.herokuapp.com/api/products/');
-    let params = new HttpParams();
-    if (limit && offset) {
-      params = params.set('limit', limit);
-      params = params.set('offset', offset);
-    }
-    return this.http.get<Product[]>(`${this.apiUrl}/products`, {
-      params, context: checkTime()
-    }).pipe(
-      retry(3),
-      map((products) => {
-        return products.map((item) => {
-          return {
-            ...item,
-            taxes: .16 * item.price
-          };
-        })
-      })
-    ); // Reintentar peticion
-  }
+  // getAllProducts(limit?: number, offset?: number): Observable<Product[]> {
+  //   // return this.http.get<Product[]>('https://fakestoreapi.com/products');
+  //   // return this.http.get<Product[]>('https://young-sands-07814.herokuapp.com/api/products/');
+  //   let params = new HttpParams();
+  //   if (limit && offset) {
+  //     params = params.set('limit', limit);
+  //     params = params.set('offset', offset);
+  //   }
+  //   return this.http.get<Product[]>(`${this.apiUrl}/products`, {
+  //     params, context: checkTime()
+  //   }).pipe(
+  //     retry(3),
+  //     map((products) => {
+  //       return products.map((item) => {
+  //         return {
+  //           ...item,
+  //           taxes: .16 * item.price
+  //         };
+  //       })
+  //     })
+  //   ); // Reintentar peticion
+  // }
 
   // getAllProducts(limit?: number, offset?: number): Observable<Product[]> {
   //   let params = new HttpParams();
@@ -67,6 +67,30 @@ export class ProductsService {
   //     })
   //   );
   // }
+
+  getAll(limit?: number, offset?: number) {
+    let params = new HttpParams();
+    if (limit && offset != null) {
+      params = params.set('limit', limit);
+      params = params.set('offset', offset);
+    }
+    return this.http
+      .get<Product[]>(`${this.apiUrl}/products`, {
+        params,
+        context: checkTime(),
+      })
+      .pipe(
+        retry(3),
+        map((products) =>
+          products.map((item) => {
+            return {
+              ...item,
+              taxes: 0.16 * item.price,
+            };
+          })
+        )
+      );
+  }
 
   fetchReadAndUpdate(id: string, dto: UpdateProductDTO) {
     return zip(
@@ -103,19 +127,21 @@ export class ProductsService {
   }
 
   getProductByPage(limit: number, offset: number) {
-    return this.http.get<Product[]>(`${this.apiUrl}/products`, {
-      params: { limit, offset },
-    }).pipe(
-      retry(3),
-      map((products) =>
-       products.map((item) => {
-          return {
-            ...item,
-            taxes: .16 * item.price
-          };
-        })
-      )
-    );
+    return this.http
+      .get<Product[]>(`${this.apiUrl}/products`, {
+        params: { limit, offset },
+      })
+      .pipe(
+        retry(3),
+        map((products) =>
+          products.map((item) => {
+            return {
+              ...item,
+              taxes: 0.16 * item.price,
+            };
+          })
+        )
+      );
   }
 
   create(dto: CreateProductDTO) {
