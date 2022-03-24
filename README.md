@@ -49,3 +49,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Interceptors
 - ng g interceptor interceptors/time --flat
+
+## Descargar archivos
+- npm install file-saver 
+- npm install @types/file-saver --save-dev
+
