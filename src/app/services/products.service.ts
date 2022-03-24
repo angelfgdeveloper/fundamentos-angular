@@ -6,7 +6,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { retry, catchError, map } from 'rxjs/operators';
-import { throwError, zip } from 'rxjs';
+import { throwError, zip, Observable } from 'rxjs';
 
 import { environment } from './../../environments/environment';
 import { checkTime } from '../interceptors/time.interceptor';
@@ -25,7 +25,7 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  getAllProducts(limit?: number, offset?: number) {
+  getAllProducts(limit?: number, offset?: number): Observable<Product[]> {
     // return this.http.get<Product[]>('https://fakestoreapi.com/products');
     // return this.http.get<Product[]>('https://young-sands-07814.herokuapp.com/api/products/');
     let params = new HttpParams();
@@ -37,26 +37,47 @@ export class ProductsService {
       params, context: checkTime()
     }).pipe(
       retry(3),
-      map((products) =>
-        products.map((item) => {
+      map((products) => {
+        return products.map((item) => {
           return {
             ...item,
             taxes: .16 * item.price
           };
         })
-      )
+      })
     ); // Reintentar peticion
   }
 
+  // getAllProducts(limit?: number, offset?: number): Observable<Product[]> {
+  //   let params = new HttpParams();
+
+  //   if (limit && offset) {
+  //     params = params.set('limit', limit);
+  //     params = params.set('offset', offset);
+  //   }
+
+  //   return this.http.get<Product[]>(this.apiUrl).pipe(
+  //     map((products) => {
+  //       return products.map((product) => {
+  //         return {
+  //           ...product,
+  //           taxes: product.price * 0.16,
+  //         };
+  //       });
+  //     })
+  //   );
+  // }
+
   fetchReadAndUpdate(id: string, dto: UpdateProductDTO) {
-    return zip( // zip - correr todo al mismo tiempo (Ponerla aqui)
-    this.getProduct(id),
-    this.update(id, dto),
-  );
-  // .subscribe(response => {
-  //   const read = response[0];
-  //   const update = response[1];
-  // })
+    return zip(
+      // zip - correr todo al mismo tiempo (Ponerla aqui)
+      this.getProduct(id),
+      this.update(id, dto)
+    );
+    // .subscribe(response => {
+    //   const read = response[0];
+    //   const update = response[1];
+    // })
   }
 
   getProduct(id: string) {
@@ -84,7 +105,17 @@ export class ProductsService {
   getProductByPage(limit: number, offset: number) {
     return this.http.get<Product[]>(`${this.apiUrl}/products`, {
       params: { limit, offset },
-    });
+    }).pipe(
+      retry(3),
+      map((products) =>
+       products.map((item) => {
+          return {
+            ...item,
+            taxes: .16 * item.price
+          };
+        })
+      )
+    );
   }
 
   create(dto: CreateProductDTO) {
