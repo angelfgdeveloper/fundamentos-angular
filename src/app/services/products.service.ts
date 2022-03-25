@@ -158,6 +158,28 @@ export class ProductsService {
       );
   }
 
+  getOne(id: string) {
+    return this.http.get<Product>(`${this.apiUrl}/products/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === HttpStatusCode.Conflict) {
+          return throwError(
+            () => new Error('Ups algo esta fallando en el server')
+          );
+        }
+
+        if (error.status === HttpStatusCode.NotFound) {
+          return throwError(() => new Error('El producto no existe'));
+        }
+
+        if (error.status === HttpStatusCode.Unauthorized) {
+          return throwError(() => new Error('No estas autorizado'));
+        }
+
+        return throwError(() => new Error('Ups algo salio mal'));
+      })
+    );
+  }
+
   create(dto: CreateProductDTO) {
     return this.http.post<Product>(`${this.apiUrl}/products`, dto);
   }

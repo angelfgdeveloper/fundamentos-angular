@@ -1,9 +1,16 @@
 <!-- <img width="200" [src]="product.image" [alt]="'Imágen de' + product.name.toLowerCase()"> -->
-<app-img *ngIf="product.images.length > 0" [img]="product.images[0]"></app-img>
+
+<a [routerLink]="['/product', product.id]">
+  <app-img *ngIf="product.images.length > 0" [img]="product.images[0]"></app-img>
+</a>
+
+<!-- <app-img *ngIf="product.images.length > 0" [img]="product.images[0]"></app-img> -->
 <h2>{{ product.price | currency: 'MXN' }}</h2>
 <!-- <p>{{ product.title | reverse }}</p> -->
 <p>{{ product.title }}</p>
 <p>{{ product?.taxes | currency: 'MXN' }}</p>
 <p appHighlight>{{ product.description }}</p>
-<button (click)="onShowDetail()">Show Detail</button>
+<!-- <button (click)="onShowDetail()">Show Detail</button> -->
+<!-- <a routerLink="/home" [queryParams]="{product: product.id}">Ver detalle</a> -->
+<a routerLink="." [queryParams]="{product: product.id}">Ver detalle</a>
 <button (click)="onAddToCart()">Add cart</button>
