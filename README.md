@@ -36,6 +36,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Separar la logica de negocio - Servicios
 ### Inyección de dependencias
 - ng g s services/store
+- ng g s services/categories
 
 ## Ejemplo de API
 - http://fakestoreapi.com/docs

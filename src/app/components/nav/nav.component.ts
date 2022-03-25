@@ -3,6 +3,8 @@ import { StoreService } from '../../services/store.service';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 import { switchMap } from 'rxjs/operators';
+import { CategoriesService } from '../../services/categories.service';
+import { Category } from '../../models/product.model';
 
 @Component({
   selector: 'app-nav',
@@ -14,43 +16,25 @@ export class NavComponent implements OnInit {
   counter = 0;
   // token = '';
   profile: User | null = null;
+  categories: Category[] = [];
 
   constructor(
     private storeService: StoreService,
-    private authService: AuthService
+    private authService: AuthService,
+    private categoriesService: CategoriesService
   ) {}
 
   ngOnInit(): void {
     this.storeService.myCart$.subscribe((products) => {
       this.counter = products.length;
     });
+
+    this.getAllCategories();
   }
 
   toggleMenu() {
     this.activeMenu = !this.activeMenu;
   }
-
-  // login() {
-  //   this.authService.login('test@test.com', '123456')
-  //   .subscribe(rta => {
-  //     this.token = rta.access_token;
-  //     console.log(this.token);
-  //     this.getProfile();
-  //   });
-  // }
-
-  // login() {
-  //   this.authService.login('test@test.com', '123456')
-  //   .pipe(
-  //     switchMap((token) => {
-  //       this.token = token.access_token;
-  //       return this.authService.getProfile();
-  //     })
-  //   )
-  //   .subscribe((user) => {
-  //     this.profile = user;
-  //   });
-  // }
 
   login() {
     this.authService.loginAndGet('test@test.com', '123456')
@@ -59,17 +43,11 @@ export class NavComponent implements OnInit {
     });
   }
 
-  // getProfile() {
-  //   this.authService.profile(this.token).subscribe((user) => {
-  //     // console.log(profile);
-  //     this.profile = user;
-  //   });
-  // }
+  getAllCategories() {
+    this.categoriesService.getAll()
+    .subscribe((data) => {
+      this.categories = data;
+    });
+  }
 
-  // getProfile() {
-  //   this.authService.getProfile().subscribe((user) => {
-  //     // console.log(profile);
-  //     this.profile = user;
-  //   });
-  // }
 }

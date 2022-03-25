@@ -21,7 +21,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'category',
+    path: 'category/:id',
     component: CategoryComponent,
   },
   {
@@ -45,7 +45,7 @@ const routes: Routes = [
     component: ProfileComponent,
   },
   {
-    path: 'not-found',
+    path: '**',
     component: NotFoundComponent,
   },
 ];

@@ -92,6 +92,20 @@ export class ProductsService {
       );
   }
 
+  getByCategory(categoryId: string, limit?: number, offset?: number) {
+    let params = new HttpParams();
+    if (limit && offset != null) {
+      params = params.set('limit', limit);
+      params = params.set('offset', offset);
+    }
+    return this.http.get<Product[]>(
+      `${this.apiUrl}/categories/${categoryId}/products`,
+      {
+        params,
+      }
+    );
+  }
+
   fetchReadAndUpdate(id: string, dto: UpdateProductDTO) {
     return zip(
       // zip - correr todo al mismo tiempo (Ponerla aqui)
