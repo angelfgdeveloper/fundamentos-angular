@@ -58,3 +58,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Crear cms
 - ng g m cms --routing
 - ng g c cms/pages/tasks
+
+## Usuario puede ver que precargar por medio de la vista - QuickLink Strategy
+- npm i ngx-quicklink --save
+
+## Correr proxy
+- npm run start:proxy
