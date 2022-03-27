@@ -62,5 +62,17 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Usuario puede ver que precargar por medio de la vista - QuickLink Strategy
 - npm i ngx-quicklink --save
 
+## Creacion de guardinas para proteger rutas
+- ng g g guards/auth
+
+Guards
+Los Guards en Angular, son de alguna manera: middlewares que se ejecutan antes de cargar una ruta y determinan si se puede cargar dicha ruta o no. Existen 4 tipos diferentes de Guards (o combinaciones de estos) que son los siguientes:
+
+(CanActivate) Antes de cargar los componentes de la ruta.
+(CanLoad) Antes de cargar los recursos (assets) de la ruta.
+(CanDeactivate) Antes de intentar salir de la ruta actual (usualmente utilizado para evitar salir de una ruta, si no se han guardado los datos).
+(CanActivateChild) Antes de cargar las rutas hijas de la ruta actual.
+
+
 ## Correr proxy
 - npm run start:proxy

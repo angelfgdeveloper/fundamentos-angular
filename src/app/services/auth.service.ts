@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { Auth } from '../models/auth.model';
@@ -12,6 +13,11 @@ import { TokenService } from './token.service';
 })
 export class AuthService {
   private apiUrl = `${environment.API_URL}/api/v1/auth`;
+
+  // Mantener el estado de un usuario
+  private user = new BehaviorSubject<User | null>(null);
+  user$ = this.user.asObservable();
+
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
@@ -31,10 +37,17 @@ export class AuthService {
       //   Authorization: `Bearer ${token}`,
       //   // 'Content-type': 'application/json'
       // },
-    });
+    })
+    .pipe(
+      tap(user => this.user.next(user)) // tap . accion una vez recibamos una accion
+    );
   }
 
   loginAndGet(email: string, password: string) {
     return this.login(email, password).pipe(switchMap(() => this.getProfile()));
+  }
+
+  logout() {
+    this.tokenService.removeToken();
   }
 }
